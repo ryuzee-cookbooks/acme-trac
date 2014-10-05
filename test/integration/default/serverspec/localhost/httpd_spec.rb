@@ -3,16 +3,7 @@ if RUBY_VERSION =~ /1.9/
   Encoding.default_internal = Encoding::UTF_8
 end
 
-require 'serverspec'
-include Serverspec::Helper::Exec
-include Serverspec::Helper::DetectOS
-
-RSpec.configure do |c|
-  c.before :all do
-    c.os = backend(Serverspec::Commands::Base).check_os
-  end
-  c.path = "/sbin:/usr/sbin"
-end
+require 'spec_helper'
 
 %w{httpd subversion}.each do |package_name|
   describe package(package_name) do
@@ -49,7 +40,7 @@ describe file("/opt/svn/sandbox") do
 end
 
 describe command("wget -q http://localhost/sandbox -O - | head -100 | grep trac") do
-  it { should return_stdout /trac/ }
+  its(:stdout) { should match /trac/ }
 end
 
 describe file("/opt/trac_svn_password") do

@@ -1,6 +1,6 @@
 ---
 driver:
-  name: docker 
+  name: docker
   socket: <%= ENV['DOCKER_HOST'] %>
 driver_config:
   require_chef_omnibus: true
@@ -14,6 +14,6 @@ platforms:
 
 suites:
 - name: default
-  run_list: 
+  run_list:
     - "recipe[acme-trac::default]"
   attributes: {}
